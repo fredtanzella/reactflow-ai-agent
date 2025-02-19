@@ -1,9 +1,9 @@
 import React from 'react';
 import { useDnD } from './DnDContext';
-import thoughtboxLogo from '/thoughtbox-logo.png'; // Public folder path
+import thoughtboxLogo from '/thoughtbox-logo.png'; // Adjust the path if necessary
 
 const Sidebar = () => {
-  const [_, setType] = useDnD();
+  const [, setType] = useDnD();
 
   const onDragStart = (event, nodeType) => {
     setType(nodeType);

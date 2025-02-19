@@ -3,7 +3,7 @@
 .react-flow {
     /* Custom Variables */
     --xy-theme-selected: #F57DBD;
-    --xy-theme-hover: #C5C5C5;
+    --xy-theme-hover: #075ff7;
     --xy-theme-edge-hover: black;
     --xy-theme-color-focus: #E8E8E8;
 
@@ -22,16 +22,6 @@
   
     --xy-edge-label-color-default: #505050;
 }
-
-.react-flow.dark { 
-    --xy-node-boxshadow-default: 
-    0px 3.54px 4.55px 0px rgba(255, 255, 255, 0.05), /* light shadow */
-    0px 3.54px 4.55px 0px rgba(255, 255, 255, 0.13), /* medium shadow */
-    0px 0.51px 1.01px 0px rgba(255, 255, 255, 0.2);  /* smallest shadow */  
-    --xy-theme-color-focus: #535353;
-}
-
-/* Customizing Default Theming */
 
 .react-flow__node {
     box-shadow: var(--xy-node-boxshadow-default);
@@ -55,8 +45,8 @@
 
 .react-flow__node.selectable:focus:active {
     box-shadow: var(--xy-node-boxshadow-default);
+    border-color: #e40b0b;
 }
-
 
 .react-flow__node.selectable:hover, 
 .react-flow__node.draggable:hover {

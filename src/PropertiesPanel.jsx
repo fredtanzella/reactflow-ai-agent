@@ -29,7 +29,7 @@ const PropertiesPanel = ({ selectedNode }) => {
           id="prompt"
           rows="5"
           style={{
-            width: '100%',
+            width: '90%',
             padding: '10px',
             borderRadius: '5px',
             border: '1px solid #ccc',
