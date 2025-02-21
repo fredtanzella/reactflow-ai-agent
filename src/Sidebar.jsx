@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDnD } from './DnDContext';
-import thoughtboxLogo from '/thoughtbox-logo.png'; // Adjust the path if necessary
+
 
 const Sidebar = () => {
   const [, setType] = useDnD();
@@ -12,20 +12,18 @@ const Sidebar = () => {
 
   return (
     <aside>
-      {/* Logo at the top */}
-      <div className="logo-container">
-        <img src={thoughtboxLogo} alt="ThoughtBox Logo" className="logo" />
-      </div>
-
       <div className="description">Drag nodes to the pane on the right.</div>
       <div className="dndnode input" onDragStart={(event) => onDragStart(event, 'Model Query')} draggable>
-        Model Query Node
+        Model Query
       </div>
       <div className="dndnode" onDragStart={(event) => onDragStart(event, 'Decision')} draggable>
-        Decision Node
+        Decision
+      </div>
+      <div className="dndnode input" onDragStart={(event) => onDragStart(event, 'Input')} draggable>
+        Input
       </div>
       <div className="dndnode output" onDragStart={(event) => onDragStart(event, 'Output')} draggable>
-        Output Node
+        Output
       </div>
     </aside>
   );

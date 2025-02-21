@@ -10,12 +10,60 @@ body {
 #app {
   width: 100vw;
   height: 100vh;
+  display: flex;
+  flex-direction: column; /* Add this line to make the top panel stack above the main content */
+}
+
+.top-panel {
+  width: 100%;
+  height: 60px; /* Adjust height as needed */
+  background-color: #ffffff;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px; /* Add padding for spacing */
+  border-bottom: 1px solid #ddd; /* Add bottom border */
+  box-sizing: border-box; /* Ensure padding is included in the width */
+}
+
+.top-panel .logo {
+  width: 150px; /* Adjust size as needed */
+  height: auto;
+}
+
+.top-panel .menu {
+  display: flex;
+  align-items: center;
+  margin-right: 20px;
+}
+
+.top-panel .menu-item {
+  margin-left: 20px; /* Adjust spacing between menu items */
+  font-size: 14px; /* Adjust font size as needed */
+  cursor: pointer;
+}
+
+.top-panel .menu-item:hover {
+  color: #007bff; /* Change color on hover */
+  transform: scale(1.1); /* Slightly scale up on hover */
+}
+
+.top-panel .menu-item-login {
+  margin-left: 1px; /* Adjust spacing between menu items */
+  font-size: 14px; /* Adjust font size as needed */
+  cursor: pointer;
+}
+.top-panel .menu-item-login-image {
+  margin-left: 50px; /* Adjust spacing between menu items */
+  font-size: 14px; /* Adjust font size as needed */
+  cursor: pointer;
 }
 
 .dndflow {
   display: flex;
   flex-direction: row; /* Ensures sidebar is on the left */
-  height: 100vh; /* Full screen height */
+  height: calc(100vh - 60px); /* Adjust height to account for the top panel */
   width: 100%;
   background-color: #f5f5f5;
 }
@@ -24,16 +72,26 @@ body {
   height: 20px;
   width: 160px;
   padding: 4px;
-  border: 1px solid #1a192b;
-  border-radius: 2px;
+  border: 1px solid #1d66ff;
+  border-radius: 8px;
   margin-bottom: 10px;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: grab;
-  background-color: white;
+  /* background-color: white; */
+  background-color: #1d66ff;; /* Change background color on hover */
+  color: white;
   font-size: 12px;
 }
+
+.dndflow .dndnode:hover {
+  background-color: #410acc;; /* Change background color on hover */
+  color: white;
+  transform: scale(1.1); /* Slightly scale up on hover */
+}
+
+
 
 .dndflow .dndnode.input {
   border-color: #0041d0;
@@ -41,12 +99,13 @@ body {
 
 .reactflow-wrapper {
   flex-grow: 1;
-  height: 100vh !important; /* Force it to take full height */
+  height: 100%; /* Adjust to take full height of the container */
+  position: relative; /* Ensure controls are positioned correctly */
 }
 
 /* Sidebar (positioned to the left) */
 aside {
-  width: 200px; /* Adjust as needed */
+  width: 180px; /* Adjust as needed */
   height: 100vh;
   padding: 10px;
   border-right: 1px solid #ddd; /* Add right border */
@@ -57,11 +116,11 @@ aside {
 }
 
 .description {
-  font-size: 10px;
+  font-size: 12px;
   padding-bottom: 20px;
   padding-top: 20px;
-  color: #939393;
-  border-top: 1px solid #ffffff; /* Add right border */
+  color: #444445;
+  border-top: 0px solid #ffffff; /* Add right border */
 }
 
 /* get rid of ReactFlow link */
@@ -75,7 +134,7 @@ aside {
 .logo-container {
   width: 100%;
   text-align: center;
-  padding-left: 20px;
+  padding-left: 45px;
   padding-bottom: 20px;
   padding-top: 10px;
   border-bottom: 1px solid #ddd; /* Add right border */
@@ -90,7 +149,7 @@ aside {
 
 /* Right panel (positioned to the right) */
 .right-panel {
-  width: 180px;
+  width: 220px;
   height: 100vh;
   padding: 10px;
   background-color: #f0f0f0;
@@ -107,3 +166,8 @@ aside {
   margin: 0; /* Optional: Adjust the margin if needed */
 }
 
+.loginimage {
+  width: 36px; /* Adjust size as needed */
+  height: 30px;
+  /* margin-top: 20px; Adjust spacing as needed */
+}

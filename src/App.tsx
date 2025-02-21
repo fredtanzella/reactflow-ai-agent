@@ -1,4 +1,4 @@
-import React, { useRef, useCallback, useState } from 'react';
+import React, { useRef, useCallback, useState, useEffect } from 'react';
 import {
   ReactFlow,
   ReactFlowProvider,
@@ -16,10 +16,10 @@ import Sidebar from './Sidebar';
 import PropertiesPanel from './PropertiesPanel';
 import { DnDProvider, useDnD } from './DnDContext';
 
-// Define a default node component
+// Default node component with handles
 const DefaultNode = ({ data }) => (
   <div>
-    <strong>{data.label}</strong>
+    {data.label}
     <Handle type="target" position="top" />
     <Handle type="source" position="bottom" />
   </div>
@@ -39,9 +39,14 @@ const DnDFlow = () => {
   const reactFlowWrapper = useRef(null);
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
-  const { screenToFlowPosition } = useReactFlow();
+  const { screenToFlowPosition, setViewport } = useReactFlow();
   const [type] = useDnD();
   const [selectedNode, setSelectedNode] = useState(null);
+
+  // ✅ Set initial viewport only once on component mount
+  useEffect(() => {
+    setViewport({ x: 0, y: 0, zoom: 1.0 });  // Adjust zoom level as needed
+  }, [setViewport]);
 
   const onConnect = useCallback(
     (params) => setEdges((eds) => addEdge(params, eds)),
@@ -56,15 +61,13 @@ const DnDFlow = () => {
   const onDrop = useCallback(
     (event) => {
       event.preventDefault();
-
-      if (!type) {
-        return;
-      }
+      if (!type) return;
 
       const position = screenToFlowPosition({
         x: event.clientX,
         y: event.clientY,
       });
+
       const newNode = {
         id: getId(),
         type,
@@ -74,44 +77,58 @@ const DnDFlow = () => {
 
       setNodes((nds) => nds.concat(newNode));
     },
-    [screenToFlowPosition, type]
+    [screenToFlowPosition, type, setNodes]
   );
 
-  const onNodeClick = useCallback((event, node) => {
-    setSelectedNode(node);
-  }, []);
+  const onNodeClick = useCallback((event, node) => setSelectedNode(node), []);
+  const onPaneClick = useCallback(() => setSelectedNode(null), []);
 
   return (
-    <div className="dndflow">
-      <Sidebar />
-      <div
-        className="reactflow-wrapper"
-        ref={reactFlowWrapper}
-        style={{ flexGrow: 1, height: '100vh' }}
-      >
-        <ReactFlow
-          nodes={nodes}
-          edges={edges}
-          onNodesChange={onNodesChange}
-          onEdgesChange={onEdgesChange}
-          onConnect={onConnect}
-          onDrop={onDrop}
-          onDragOver={onDragOver}
-          onNodeClick={onNodeClick}
-          fitView
-          nodeTypes={nodeTypes}
-          style={{ backgroundColor: '#FFFFFF' }}
-        >
-          <Controls />
-          <Background
-            variant="dots"
-            gap={16}
-            size={1}
-            color="#b3b2b2"
-          />
-        </ReactFlow>
+    <div id="app">
+      <div className="top-panel">
+        <img src="./thoughtbox-logo.png" alt="Thoughtbox" className="logo" />
+        <div className="menu">
+          <div className="menu-item">File</div>
+          <div className="menu-item">Models</div>
+          <div className="menu-item">Export</div>
+          <div className="menu-item">Settings</div>
+          <div className="menu-item">Help</div>
+          <div className="menu-item-login-image">
+            <img src="./fred-google.jpg" className="loginimage" alt="Fred Tanzella" />
+          </div>
+          <div className="menu-item-login">Fred Tanzella</div>
+        </div>
       </div>
-      <PropertiesPanel selectedNode={selectedNode} />
+      <div className="dndflow">
+        <Sidebar />
+        <div
+          className="reactflow-wrapper"
+          ref={reactFlowWrapper}
+          style={{ flexGrow: 1, height: '100%' }}
+        >
+          <ReactFlow
+            nodes={nodes}
+            edges={edges}
+            onNodesChange={onNodesChange}
+            onEdgesChange={onEdgesChange}
+            onConnect={onConnect}
+            onDrop={onDrop}
+            onDragOver={onDragOver}
+            onNodeClick={onNodeClick}
+            onPaneClick={onPaneClick}
+            nodeTypes={nodeTypes}
+            defaultViewport={{ x: 0, y: 0, zoom: 0.4 }}  // Initial zoom level
+            zoomOnScroll={true}
+            zoomOnDoubleClick={false}
+            panOnScroll
+            style={{ backgroundColor: '#FFFFFF' }}
+          >
+            <Controls />
+            <Background variant="dots" gap={16} size={1} color="#797979" />
+          </ReactFlow>
+        </div>
+        <PropertiesPanel selectedNode={selectedNode} />
+      </div>
     </div>
   );
 };

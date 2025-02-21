@@ -6,6 +6,10 @@
     --xy-theme-hover: #075ff7;
     --xy-theme-edge-hover: black;
     --xy-theme-color-focus: #E8E8E8;
+    --xy-node-background-color-default: #075ff7;
+    --xy-node-color: white;
+    --xy-node-color-default: white;
+
 
     /* Built-in Variables see https://reactflow.dev/learn/customization/theming */
     --xy-node-border-default: 1px solid #EDEDED;
@@ -17,7 +21,7 @@
   
     --xy-node-border-radius-default: 8px;
   
-    --xy-handle-background-color-default: #ffffff;
+    --xy-handle-background-color-default: #410acc;
     --xy-handle-border-color-default: #AAAAAA;
   
     --xy-edge-label-color-default: #505050;
@@ -33,6 +37,7 @@
     text-align: center;
     padding: 10px;
     font-size: 12px;
+    width: 160px;
     flex-direction: column;
     border: var(--xy-node-border-default);
     color: var(--xy-node-color, var(--xy-node-color-default));
@@ -46,6 +51,8 @@
 .react-flow__node.selectable:focus:active {
     box-shadow: var(--xy-node-boxshadow-default);
     border-color: #e40b0b;
+    background-color: #e40b0b;
+    color: white;   
 }
 
 .react-flow__node.selectable:hover, 
@@ -56,6 +63,8 @@
 .react-flow__node.selectable.selected {
     border-color: var(--xy-theme-selected);
     box-shadow: var(--xy-node-boxshadow-default);
+    background-color: #e40b0b;
+    color: white;   
 }
 
 .react-flow__node-group {
@@ -102,5 +111,5 @@
   }
   
   .dndflow .dndnode.output {
-    border-color: #ff0072;
+    border-color: #0041d0;
   }
