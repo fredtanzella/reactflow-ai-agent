@@ -26,9 +26,9 @@ const DefaultNode = ({ data }) => (
 );
 
 const nodeTypes = {
-  input: DefaultNode,
-  decision: DefaultNode,
-  output: DefaultNode,
+  Input: DefaultNode,
+  Decision: DefaultNode,
+  Output: DefaultNode,
   'Model Query': DefaultNode,
 };
 
