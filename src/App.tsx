@@ -1,4 +1,4 @@
-import React, { useRef, useCallback, useState, useEffect } from 'react';
+import React, { useState, useCallback, useEffect } from 'react'; // Import useRef here if needed
 import {
   ReactFlow,
   ReactFlowProvider,
@@ -9,6 +9,7 @@ import {
   useReactFlow,
   Background,
   Handle,
+  Node,
 } from 'reactflow';
 import 'reactflow/dist/style.css';
 
@@ -17,7 +18,16 @@ import PropertiesPanel from './PropertiesPanel';
 import { DnDProvider, useDnD } from './DnDContext';
 
 // Default node component with handles
-const DefaultNode = ({ data }) => (
+const DefaultNode = ({ data }: { data: any }) => (
+  <div>
+    {data.label}
+    <Handle type="target" position="top" />
+    <Handle type="source" position="bottom" />
+  </div>
+);
+
+// ModelQueryNode component
+const ModelQueryNode = ({ data }: { data: any }) => (
   <div>
     {data.label}
     <Handle type="target" position="top" />
@@ -29,28 +39,23 @@ const nodeTypes = {
   Input: DefaultNode,
   Decision: DefaultNode,
   Output: DefaultNode,
-  'Model Query': DefaultNode,
+  'Model Query': ModelQueryNode,
 };
 
 let id = 0;
 const getId = () => `dndnode_${id++}`;
 
 const DnDFlow = () => {
-  const reactFlowWrapper = useRef(null);
+  const reactFlowWrapper = React.useRef<HTMLDivElement>(null); // added type to ref
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
-  const { screenToFlowPosition, setViewport } = useReactFlow();
+  const { screenToFlowPosition } = useReactFlow();
   const [type] = useDnD();
-  const [selectedNode, setSelectedNode] = useState(null);
-
-  // ✅ Set initial viewport only once on component mount
-  useEffect(() => {
-    setViewport({ x: 0, y: 0, zoom: 1.0 });  // Adjust zoom level as needed
-  }, [setViewport]);
+  const [selectedNode, setSelectedNode] = useState<Node | null>(null); // typed selectedNode
 
   const onConnect = useCallback(
     (params) => setEdges((eds) => addEdge(params, eds)),
-    []
+    [setEdges]
   );
 
   const onDragOver = useCallback((event) => {
@@ -80,7 +85,11 @@ const DnDFlow = () => {
     [screenToFlowPosition, type, setNodes]
   );
 
-  const onNodeClick = useCallback((event, node) => setSelectedNode(node), []);
+  const onNodeClick = useCallback(
+    (event: React.MouseEvent, node: Node) => setSelectedNode(node),
+    []
+  );
+
   const onPaneClick = useCallback(() => setSelectedNode(null), []);
 
   return (
@@ -117,7 +126,7 @@ const DnDFlow = () => {
             onNodeClick={onNodeClick}
             onPaneClick={onPaneClick}
             nodeTypes={nodeTypes}
-            defaultViewport={{ x: 0, y: 0, zoom: 0.4 }}  // Initial zoom level
+            defaultViewport={{ x: 0, y: 0, zoom: 0.4 }} // Initial zoom level
             zoomOnScroll={true}
             zoomOnDoubleClick={false}
             panOnScroll
